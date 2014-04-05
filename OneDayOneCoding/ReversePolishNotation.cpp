@@ -18,14 +18,14 @@ using namespace std;
 
 class Solution {
 public:
-	int evalRPN( vector<string> &tokens ) {
+	int evalRPN(vector<string> &tokens) {
 		vector<int> tempStack;
 
 		vector<string>::iterator pilot = tokens.begin();
 
-		for ( ; pilot != tokens.end(); ++pilot )
+		for (; pilot != tokens.end(); ++pilot)
 		{
-			if ( IsOperator( pilot ) )
+			if (IsOperator(pilot))
 			{
 				const char op = *pilot->c_str();
 
@@ -35,11 +35,11 @@ public:
 				int first = tempStack.back();
 				tempStack.pop_back();
 
-				tempStack.push_back( calculate( op, first, second ) );
+				tempStack.push_back(calculate(op, first, second));
 			}
 			else
 			{
-				tempStack.push_back( atoi( pilot->c_str() ) );
+				tempStack.push_back(atoi(pilot->c_str()));
 			}
 		}
 
@@ -47,38 +47,35 @@ public:
 	}
 private:
 	// warning : only works input == integer || character
-	bool IsOperator( const vector<string>::iterator& input )
+	bool IsOperator(const vector<string>::iterator& input)
 	{
 		// Exception : input == "0"
-		if ( !strcmp( input->c_str(), "0" ) )
+		if (!strcmp(input->c_str(), "0"))
 		{
 			return false;
 		}
 
-		return ( atoi( input->c_str() ) == 0 ? true : false );
+		return (atoi(input->c_str()) == 0 ? true : false);
 	}
 
-	int calculate( const char &op, const int &first, const int &second )
+	int calculate(char op, int first, int second)
 	{
 		int result = -1;
-
-		if ( op == '+' )
+		swtich(op)
 		{
-			result = ( first + second );
+			case '+':
+				result = first + second;
+				break;
+			case '-':
+				result = first - second;
+				break;
+			case '*':
+				result = first * second;
+				break;
+			case '/':
+				result = first / second;
+				break;			
 		}
-		else if ( op == '-' )
-		{
-			result = ( first - second );
-		}
-		else if ( op == '*' )
-		{
-			result = ( first * second );
-		}
-		else if ( op == '/' )
-		{
-			result = ( first / second );
-		}
-
 		return result;
 	}
 };
@@ -90,34 +87,34 @@ int main()
 	int result = 0;
 
 	vector<string> tempSet;
-	tempSet.push_back( "2" );
-	tempSet.push_back( "1" );
-	tempSet.push_back( "+" );
-	tempSet.push_back( "3" );
-	tempSet.push_back( "*" );
+	tempSet.push_back("2");
+	tempSet.push_back("1");
+	tempSet.push_back("+");
+	tempSet.push_back("3");
+	tempSet.push_back("*");
 
-	result = sol.evalRPN( tempSet );
-	printf( "2 1 + 3 * = %d\n", result );
-
-	tempSet.clear();
-
-	tempSet.push_back( "4" );
-	tempSet.push_back( "13" );
-	tempSet.push_back( "5" );
-	tempSet.push_back( "/" );
-	tempSet.push_back( "+" );
-
-	result = sol.evalRPN( tempSet );
-	printf( "4 13 5 / + = %d\n", result );
+	result = sol.evalRPN(tempSet);
+	printf("2 1 + 3 * = %d\n", result);
 
 	tempSet.clear();
 
-	tempSet.push_back( "0" );
-	tempSet.push_back( "3" );
-	tempSet.push_back( "/" );
+	tempSet.push_back("4");
+	tempSet.push_back("13");
+	tempSet.push_back("5");
+	tempSet.push_back("/");
+	tempSet.push_back("+");
 
-	result = sol.evalRPN( tempSet );
-	printf( "0 3 / + = %d\n", result );
+	result = sol.evalRPN(tempSet);
+	printf("4 13 5 / + = %d\n", result);
+
+	tempSet.clear();
+
+	tempSet.push_back("0");
+	tempSet.push_back("3");
+	tempSet.push_back("/");
+
+	result = sol.evalRPN(tempSet);
+	printf("0 3 / + = %d\n", result);
 
 
 	getchar();
